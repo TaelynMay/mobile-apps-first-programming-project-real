@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import {useState} from 'react';
-import * as firebase from "firebase";
+import firebase from 'firebase/compat/app';
 import FormData from 'form-data';
 
 import ImageViewer from './components/ImageViewer';
@@ -29,26 +29,6 @@ function componentDidMount() {
   
 };
 
-saveReadings = () => {
-  var bodyData = new FormData();
-  bodyData.append("images", this.state.images);
-
-  fetch(
-    "https://script.google.com/macros/s/AKfycbygrxiixwti0xCiwj-c070rZM9SFm8mHvm0lLTZhDA3hoieQfDEzbXkzz7wmuc1-fS1yA/exec",
-    {
-      method: "POST", body: bodyData,
-    })
-    .then((response) => response.text())
-    .then((res) => {
-      if (res == "Success") {
-        Alert.alert("Great!", "readings saved", [{text: "done"}]);
-      }
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-};
-
 export default function App() {
 const [selectedImage, setSelectedImage] = useState(null);
 
@@ -65,6 +45,26 @@ const [selectedImage, setSelectedImage] = useState(null);
     }
   };
 
+  const saveReadings = async() => {
+    var bodyData = new FormData();
+    bodyData.append("images", 1);
+  
+    fetch(
+      "https://script.google.com/macros/s/AKfycbzSmZwMFMOPkhWE79LLcerNeN2HPzns18T0zNBJa8P6mffMWmBdV6atRdgx6lFOe7da2g/exec",
+      {
+        method: "POST", body: bodyData,
+      })
+      .then((response) => response.text())
+      .then((res) => {
+        if (res == "Success") {
+          console.log("Great!", "readings saved", [{text: "done"}]);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -72,7 +72,7 @@ const [selectedImage, setSelectedImage] = useState(null);
       </View>
       <View style={styles.footerContainer}>
         <Button theme = "primary" label ="Choose a photo" onPress={pickImageAsync}/>
-        <Button label="Use this photo" />
+        <Button label="Timestamp" onPress={() => {saveReadings();}}/>
       </View>
       <StatusBar style="auto" />
     </View>
