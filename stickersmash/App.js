@@ -47,7 +47,7 @@ const [selectedImage, setSelectedImage] = useState(null);
 
   const saveReadings = async() => {
     var bodyData = new FormData();
-    bodyData.append("images", 1);
+    bodyData.append("images", 10);
   
     fetch(
       "https://script.google.com/macros/s/AKfycbzSmZwMFMOPkhWE79LLcerNeN2HPzns18T0zNBJa8P6mffMWmBdV6atRdgx6lFOe7da2g/exec",
